@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 HttpResponse httpResponse = new HttpResponse(response.body().get("httpStatus").getAsInt(), response.body().get("httpMessage").toString());
                 Toast.makeText(LoginActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
 
-                if(httpResponse.getHttpStatus() == HTTP_STATUS_CODE_CONTINUE) { 
+                if(httpResponse.getHttpStatus() == HTTP_STATUS_CODE_CONTINUE) {
                     switchToHomeActivity();
                 }
             }
