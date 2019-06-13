@@ -42,7 +42,13 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 userName = eTUsername.getText().toString();
                 password = eTPassword.getText().toString();
-                sendRegisterData();
+                if(password.equals(eTConfirmPassword.getText().toString())) {
+                    sendRegisterData();
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this, "Passwords Doesn't Match, Please Try Again!", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -50,8 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         tVLoginHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
+                switchToLoginActivity();
             }
         });
     }
@@ -65,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty("username", userName);
         jsonObj.addProperty("password", password);
-        Call<JsonObject> call = rest.saveRegister(jsonObj); // Sends register data to heroku app with the JSON object created.
+        Call<JsonObject> call = rest.saveRegister(jsonObj); // Sends register data to heroku app with the JSON object that has been created.
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -73,8 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
                 HttpResponse httpResponse = new HttpResponse(response.body().get("httpStatus").getAsInt(), response.body().get("httpMessage").toString());
                 Toast.makeText(RegisterActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
 
-                Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
+                switchToLoginActivity();
             }
 
             @Override
@@ -82,6 +86,11 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Error At Registration!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    protected void switchToLoginActivity() {
+        Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
     }
 
 }

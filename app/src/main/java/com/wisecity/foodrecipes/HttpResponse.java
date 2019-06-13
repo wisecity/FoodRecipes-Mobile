@@ -14,7 +14,7 @@ public class HttpResponse {
         this.httpMessage = httpMmessage;
     }
 
-    public int getHttpStatusStatus() {
+    public int getHttpStatus() {
         return httpStatus;
     }
 
