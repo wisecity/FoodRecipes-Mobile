@@ -30,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     TextView tVSignUpHere;
 
+    private Token accessToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
 
                 if((httpResponse.getHttpStatus() == HTTP_STATUS_CODE_CONTINUE) || (httpResponse.getHttpStatus() == HTTP_STATUS_CODE_OK)) {
-                    switchToHomeActivity();
+                    switchToHomeActivity(response);
                 }
             }
 
@@ -91,8 +93,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    protected void switchToHomeActivity() {
+    protected void switchToHomeActivity(Response<JsonObject> response) {
+        accessToken = new Token(response.body().get("access_token").toString()); // Not 100% necessary written to make use of Token.java for better coding
         Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+        homeIntent.putExtra("accessToken", accessToken.getAccessToken());
         startActivity(homeIntent);
     }
 
