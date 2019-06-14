@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 //System.out.println("DEBUG:");
                 //System.out.println("CODE:: " + response.code());
+                System.out.println("DEBUG 2: " + response.body().get("access_token")); // DEBUG FOR ACCESS TOKEN
                 HttpResponse httpResponse = new HttpResponse(response.code(), response.message());
                 Toast.makeText(LoginActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
 
