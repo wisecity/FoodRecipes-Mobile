@@ -12,13 +12,13 @@ public interface RestAPI {
     @Headers({
             "Accept: application/json"
     })
-    @POST("register")
+    @POST("user")
     Call<JsonObject> saveRegister(@Body JsonObject body);
 
     @Headers({
             "Accept: application/json"
     })
-    @POST("login")
+    @POST("loginnn")
     Call<JsonObject> sendLogin(@Body JsonObject body);
 
 }

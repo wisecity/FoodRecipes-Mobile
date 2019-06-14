@@ -70,12 +70,15 @@ public class RegisterActivity extends AppCompatActivity {
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty("username", userName);
         jsonObj.addProperty("password", password);
+        //System.out.println(jsonObj.get("username").toString());
+        //System.out.println(jsonObj.get("password").toString());
+
         Call<JsonObject> call = rest.saveRegister(jsonObj); // Sends register data to heroku app with the JSON object that has been created.
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                HttpResponse httpResponse = new HttpResponse(response.body().get("httpStatus").getAsInt(), response.body().get("httpMessage").toString());
+                HttpResponse httpResponse = new HttpResponse(response.code(), response.message()); // body().get("status_code").getAsInt() and body().get("message").toString()
                 Toast.makeText(RegisterActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
 
                 switchToLoginActivity();

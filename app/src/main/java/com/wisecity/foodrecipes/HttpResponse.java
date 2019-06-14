@@ -4,14 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class HttpResponse {
 
-    @SerializedName("httpstatus")
+    @SerializedName("status_code")
     private int httpStatus;
-    @SerializedName("httpmessage")
+    @SerializedName("message")
     private String httpMessage;
 
-    public HttpResponse(int httpStatus, String httpMmessage) {
+
+    public HttpResponse(int httpStatus, String httpMessage) {
         this.httpStatus = httpStatus;
-        this.httpMessage = httpMmessage;
+        this.httpMessage = httpMessage;
     }
 
     public int getHttpStatus() {
@@ -23,6 +24,6 @@ public class HttpResponse {
     }
 
     public String toString(){
-        return "Status Code : " + httpStatus + "Message : " + httpMessage;
+        return "Status Code : " + httpStatus + " Message : " + httpMessage;
     }
 }

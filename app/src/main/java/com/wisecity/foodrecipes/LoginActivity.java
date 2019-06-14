@@ -20,6 +20,7 @@ import retrofit2.Retrofit;
 public class LoginActivity extends AppCompatActivity {
 
     public static final int HTTP_STATUS_CODE_CONTINUE = 100;
+    public static final int HTTP_STATUS_CODE_OK = 200;
 
     private String userName;
     private String password;
@@ -71,10 +72,12 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                HttpResponse httpResponse = new HttpResponse(response.body().get("httpStatus").getAsInt(), response.body().get("httpMessage").toString());
+                //System.out.println("DEBUG:");
+                //System.out.println("CODE:: " + response.code());
+                HttpResponse httpResponse = new HttpResponse(response.code(), response.message());
                 Toast.makeText(LoginActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
 
-                if(httpResponse.getHttpStatus() == HTTP_STATUS_CODE_CONTINUE) {
+                if((httpResponse.getHttpStatus() == HTTP_STATUS_CODE_CONTINUE) || (httpResponse.getHttpStatus() == HTTP_STATUS_CODE_OK)) {
                     switchToHomeActivity();
                 }
             }
@@ -89,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
     protected void switchToHomeActivity() {
         Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(homeIntent);
     }
 
 }
