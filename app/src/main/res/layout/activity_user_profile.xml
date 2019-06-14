@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/blackgradientbackground"
-    tools:context=".HomeActivity">
+    tools:context=".UserProfileActivity">
 
     <ImageView
         android:id="@+id/iVWiseCityLogo"
@@ -31,7 +31,7 @@
         app:srcCompat="@drawable/foodrecipeslogo" />
 
     <ImageButton
-        android:id="@+id/iBUserProfile"
+        android:id="@+id/iBHome"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -40,7 +40,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iVWiseCityLogo"
         app:layout_constraintTop_toTopOf="@+id/iVWiseCityLogo"
-        app:srcCompat="@drawable/ic_action_profile" />
-
+        app:srcCompat="@drawable/ic_action_home" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

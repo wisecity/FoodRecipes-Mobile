@@ -6,31 +6,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.google.gson.JsonObject;
-
-import retrofit2.Response;
-
-public class HomeActivity extends AppCompatActivity {
+public class UserProfileActivity extends AppCompatActivity {
 
     private Token accessToken;
-    ImageButton iBUserProfile;
+    ImageButton iBHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        Toast.makeText(HomeActivity.this, "Welcome!", Toast.LENGTH_LONG).show();
+        setContentView(R.layout.activity_user_profile);
 
         initializeToken();
-
-        iBUserProfile = findViewById(R.id.iBUserProfile);
-        iBUserProfile.setOnClickListener(new View.OnClickListener() {
+        iBHome = findViewById(R.id.iBHome);
+        iBHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchToUserProfileActivity(accessToken);
+                switchToHomeActivity(accessToken);
             }
         });
 
@@ -43,10 +35,10 @@ public class HomeActivity extends AppCompatActivity {
         return accessToken;
     }
 
-    protected void switchToUserProfileActivity(Token accessToken) {
-        Intent userProfileIntent = new Intent(HomeActivity.this, UserProfileActivity.class);
-        userProfileIntent.putExtra("accessToken", accessToken.getAccessToken());
-        startActivity(userProfileIntent);
+    protected void switchToHomeActivity(Token accessToken) {
+        Intent userHomeIntent = new Intent(UserProfileActivity.this, HomeActivity.class);
+        userHomeIntent.putExtra("accessToken", accessToken.getAccessToken());
+        startActivity(userHomeIntent);
     }
 
     protected void initializeToken() {
