@@ -25,8 +25,8 @@ public interface RestAPI {
     @POST("loginnn")
     Call<JsonObject> sendLogin(@Body JsonObject body);
 
-    /*
-    @GET("user/{user_name}\"")
-    Call<JsonObject> getAllRecipes(@Path("user_name") String userName);
-    */
+
+    @GET("/showrecipes")
+    Call<JsonObject> getAllRecipes();
+
 }

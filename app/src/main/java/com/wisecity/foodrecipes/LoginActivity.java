@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final int HTTP_STATUS_CODE_CONTINUE = 100;
     public static final int HTTP_STATUS_CODE_OK = 200;
 
-    protected static String userName;
+    private String userName;
     private String password;
 
     EditText eTUsername;
