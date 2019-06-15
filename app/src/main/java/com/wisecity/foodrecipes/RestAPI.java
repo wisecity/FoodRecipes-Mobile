@@ -29,4 +29,7 @@ public interface RestAPI {
     @GET("/showrecipes")
     Call<JsonObject> getAllRecipes();
 
+    @GET("/getusername")
+    Call<JsonObject> getUserRecipes(@Header("Bearer") Token token); // @Header("Authorization : Bearer {}") Token token
+
 }

@@ -5,15 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -25,7 +31,6 @@ import retrofit2.Retrofit;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private String userName;
     private Token accessToken;
     ImageButton iBUserProfile;
     private Recipe[] allRecipes;
@@ -53,9 +58,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        userName = LoginActivity.userName;
         lstAllRecipes = findViewById(R.id.lstAllRecipes);
-
+        getRecipes();
 
     }
 
@@ -76,40 +80,183 @@ public class HomeActivity extends AppCompatActivity {
         accessToken = new Token(getAccessTokenFromOtherActivities());
     }
 
-    /*
+
     protected void getRecipes() {
         url = new RestAPIUrl();
         retrofit = url.createRetrofitFromUrl();
 
         rest = retrofit.create(RestAPI.class);
 
-        Call<JsonObject> call = rest.getAllRecipes(userName);
-
+        Call<JsonObject> call = rest.getAllRecipes();
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-                Gson gson= new Gson();
+                Gson gson = new Gson(); //Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create(); // Gson object can be created like this too.
 
                 JsonObject resultList = response.body();
-                JsonElement element = resultList.get("recipes");
+                //System.out.println("RECIPE: " + resultList.get("Recipes")); // DEBUG PRINTING ALL RECIPES TO CONSOLE
+                JsonElement element = resultList.get("Recipes");
                 JsonArray array = element.getAsJsonArray();
-
+                //System.out.println(array.size()); // DEBUG
                 allRecipes = new Recipe[array.size()];
-
                 for(int i=0;i<array.size();i++){
-                    Recipe obj = gson.fromJson(array.get(i).toString(),Recipe.class);
-                    allRecipes[i] = obj;
-                }
 
+                    Recipe obj = gson.fromJson((array.get(i)).toString(),Recipe.class); // ERROR
+
+                    allRecipes[i] = obj;
+                    System.out.println(allRecipes[i].getRecipeName());
+                }
+                //System.out.println("SUCCESSFUL");
+                putAllRecipesToList();
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                System.out.println("FAILED");
             }
         });
 
     }
-    */
+
+    private void putAllRecipesToList() {
+        final String names[] = new String[allRecipes.length];
+        for(int i=0;i<allRecipes.length;i++){
+            names[i]=allRecipes[i].getRecipeName();
+        }
+
+        ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, android.R.id.text1, names){
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Cast the list view each item as text view
+                TextView item = (TextView) super.getView(position,convertView,parent);
+
+                // Set the typeface/font for the current item
+
+
+                // Set the list view item's text color
+                item.setTextColor(Color.parseColor("#ffffff"));
+
+                // Set the item text style to bold
+                item.setTypeface(item.getTypeface(), Typeface.BOLD);
+
+
+                // Change the item text size
+                item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+
+                ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
+                layoutparams.height = 170;
+
+                item.setLayoutParams(layoutparams);
+
+
+                // return the view
+                return item;
+            }
+        };
+        lstAllRecipes.setAdapter(dataAdapter);
+
+        /*
+        lstAllRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position,
+                                    long id) {
+
+
+                AlertDialog.Builder desc =
+                        new AlertDialog.Builder(HomeActivity.this);
+
+                desc.setMessage(allRecipes[position].getRecipeDetails())
+                        .setCancelable(true);
+
+
+                desc.setNeutralButton("Delete",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                                final String recipeId = allRecipes[position].getRecipe_id();
+                                deleteRecipe(recipeId);
+                                finish();
+                                startActivity(getIntent());
+
+                                dialog.cancel();
+                            }
+                        });
+
+                desc.setNegativeButton("Update",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                recipe_id = recipes[position].getRecipe_id();
+                                recipe_name = recipes[position].getRecipe_name();
+                                recipe_desc = recipes[position].getRecipe_desc();
+
+
+                                AlertDialog.Builder updateAlert =
+                                        new AlertDialog.Builder(RecipePageActivity.this);
+
+
+
+                                final EditText inputName = new EditText(RecipePageActivity.this);
+                                final EditText inputDesc = new EditText(RecipePageActivity.this);
+
+
+                                inputName.setText(recipe_name);
+                                inputDesc.setText(recipe_desc);
+
+                                Context context = updateAlert.getContext();
+                                LinearLayout layout = new LinearLayout(context);
+
+                                layout.setOrientation(LinearLayout.VERTICAL);
+
+
+
+                                inputName.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                                        | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                                layout.addView(inputName);
+
+                                inputDesc.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                                        |InputType.TYPE_TEXT_VARIATION_NORMAL);
+                                layout.addView(inputDesc);
+
+                                updateAlert.setView(layout);
+
+                                updateAlert.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        String updatedName = inputName.getText().toString();
+                                        String updatedDesc = inputDesc.getText().toString();
+
+                                        if(updatedName.equals(recipe_name)){
+                                            updatedName = null;
+                                        }
+                                        if(updatedDesc.equals(recipe_desc)){
+                                            updatedDesc = null;
+                                        }
+
+                                        updateRecipe(recipes[position].getRecipe_id(), updatedName, updatedDesc);
+                                        finish();
+                                        startActivity(getIntent());
+
+                                    }
+                                });
+
+                                updateAlert.create().show();
+                                //  ((Dialog)dialog).getWindow().setLayout(600,800);
+                                //dialog.cancel();
+                            }
+                        });
+                desc.create().show();
+
+            }
+        });
+        */
+    }
+
 }
