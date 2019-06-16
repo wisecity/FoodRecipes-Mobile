@@ -2,6 +2,8 @@ package com.wisecity.foodrecipes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -145,13 +148,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
                 item.setLayoutParams(layoutparams);
 
-
                 // return the view
                 return item;
             }
         };
         lVAllUserRecipes.setAdapter(dataAdapter);
-        
     }
-
 }

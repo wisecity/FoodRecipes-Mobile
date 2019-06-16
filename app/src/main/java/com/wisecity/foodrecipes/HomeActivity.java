@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
     protected String getAccessTokenFromOtherActivities() {
         Intent fromOtherIntent = getIntent();
         String accessToken = fromOtherIntent.getStringExtra("accessToken");
-        System.out.println("DEBUG, TOKEN IS:" + accessToken);
+        //System.out.println("DEBUG, TOKEN IS:" + accessToken);
         return accessToken;
     }
 
@@ -105,7 +105,7 @@ public class HomeActivity extends AppCompatActivity {
                     Recipe obj = gson.fromJson((array.get(i)).toString(),Recipe.class); // ERROR
 
                     allRecipes[i] = obj;
-                    System.out.println(allRecipes[i].getRecipeName());
+                    //System.out.println(allRecipes[i].getRecipeName());
                 }
                 //System.out.println("SUCCESSFUL");
                 putAllRecipesToList();
@@ -116,7 +116,6 @@ public class HomeActivity extends AppCompatActivity {
                 System.out.println("FAILED");
             }
         });
-
     }
 
     private void putAllRecipesToList() {
@@ -157,106 +156,5 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
         lstAllRecipes.setAdapter(dataAdapter);
-
-        /*
-        lstAllRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position,
-                                    long id) {
-
-
-                AlertDialog.Builder desc =
-                        new AlertDialog.Builder(HomeActivity.this);
-
-                desc.setMessage(allRecipes[position].getRecipeDetails())
-                        .setCancelable(true);
-
-
-                desc.setNeutralButton("Delete",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-                                final String recipeId = allRecipes[position].getRecipe_id();
-                                deleteRecipe(recipeId);
-                                finish();
-                                startActivity(getIntent());
-
-                                dialog.cancel();
-                            }
-                        });
-
-                desc.setNegativeButton("Update",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                recipe_id = recipes[position].getRecipe_id();
-                                recipe_name = recipes[position].getRecipe_name();
-                                recipe_desc = recipes[position].getRecipe_desc();
-
-
-                                AlertDialog.Builder updateAlert =
-                                        new AlertDialog.Builder(RecipePageActivity.this);
-
-
-
-                                final EditText inputName = new EditText(RecipePageActivity.this);
-                                final EditText inputDesc = new EditText(RecipePageActivity.this);
-
-
-                                inputName.setText(recipe_name);
-                                inputDesc.setText(recipe_desc);
-
-                                Context context = updateAlert.getContext();
-                                LinearLayout layout = new LinearLayout(context);
-
-                                layout.setOrientation(LinearLayout.VERTICAL);
-
-
-
-                                inputName.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE
-                                        | InputType.TYPE_TEXT_VARIATION_NORMAL);
-                                layout.addView(inputName);
-
-                                inputDesc.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE
-                                        |InputType.TYPE_TEXT_VARIATION_NORMAL);
-                                layout.addView(inputDesc);
-
-                                updateAlert.setView(layout);
-
-                                updateAlert.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        String updatedName = inputName.getText().toString();
-                                        String updatedDesc = inputDesc.getText().toString();
-
-                                        if(updatedName.equals(recipe_name)){
-                                            updatedName = null;
-                                        }
-                                        if(updatedDesc.equals(recipe_desc)){
-                                            updatedDesc = null;
-                                        }
-
-                                        updateRecipe(recipes[position].getRecipe_id(), updatedName, updatedDesc);
-                                        finish();
-                                        startActivity(getIntent());
-
-                                    }
-                                });
-
-                                updateAlert.create().show();
-                                //  ((Dialog)dialog).getWindow().setLayout(600,800);
-                                //dialog.cancel();
-                            }
-                        });
-                desc.create().show();
-
-            }
-        });
-        */
     }
-
 }
