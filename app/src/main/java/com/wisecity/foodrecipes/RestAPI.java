@@ -35,4 +35,7 @@ public interface RestAPI {
     @GET("user/{username}")
     Call<JsonArray> getUserRecipes(@Path("username") String username);
 
+    @POST("/recipe")
+    Call<JsonObject> addRecipe(@Body JsonObject body, @Header("Authorization") String accessToken);
+
 }

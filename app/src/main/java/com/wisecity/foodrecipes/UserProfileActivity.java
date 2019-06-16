@@ -38,6 +38,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private Token accessToken;
     private Recipe[] allUserRecipes;
     ImageButton iBHome;
+    ImageButton iBAddRecipe;
 
     ListView lVAllUserRecipes;
 
@@ -52,6 +53,14 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switchToHomeActivity(accessToken);
+            }
+        });
+
+        iBAddRecipe = findViewById(R.id.iBAddRecipe);
+        iBAddRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToAddRecipeActivity(accessToken);
             }
         });
 
@@ -70,6 +79,12 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent userHomeIntent = new Intent(UserProfileActivity.this, HomeActivity.class);
         userHomeIntent.putExtra("accessToken", accessToken.getAccessToken());
         startActivity(userHomeIntent);
+    }
+
+    protected void switchToAddRecipeActivity(Token accessToken) {
+        Intent addRecipeIntent = new Intent(UserProfileActivity.this, AddRecipeActivity.class);
+        addRecipeIntent.putExtra("accessToken", accessToken.getAccessToken());
+        startActivity(addRecipeIntent);
     }
 
     protected void initializeToken() {
