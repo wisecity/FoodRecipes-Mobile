@@ -28,14 +28,13 @@ public interface RestAPI {
     @POST("loginnn")
     Call<JsonObject> sendLogin(@Body JsonObject body);
 
-
     @GET("/showrecipes")
     Call<JsonObject> getAllRecipes();
 
     @GET("user/{username}")
     Call<JsonArray> getUserRecipes(@Path("username") String username);
 
-    @POST("/recipe")
-    Call<JsonObject> addRecipe(@Body JsonObject body, @Header("Authorization") String accessToken);
+    @POST("/recipe") //@Headers("Authorization: {Bearer}")
+    Call<JsonObject> addRecipe( @Header("Token") String accessToken, @Body JsonObject body);
 
 }

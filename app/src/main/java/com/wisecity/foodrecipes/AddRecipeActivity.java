@@ -92,7 +92,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         jsonObj.addProperty("details", recipeDetails);
 
         System.out.println("DEBUG 1:");
-        Call<JsonObject> call = rest.addRecipe(jsonObj,"Bearer" + accessToken.getAccessToken());
+        Call<JsonObject> call = rest.addRecipe(accessToken.getAccessToken(), jsonObj);
         System.out.println("DEBUG 2: " + jsonObj);
         call.enqueue(new Callback<JsonObject>() {
             @Override
