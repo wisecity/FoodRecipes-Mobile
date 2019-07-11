@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +29,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -160,6 +164,40 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
         lstAllRecipes.setAdapter(dataAdapter);
+
+
+        lstAllRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position,
+                                    long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setTitle("FoodRecipes");
+                builder.setMessage("What Would You Like To Do?");
+                builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        // EDIT PROCESS
+                        edit(allRecipes[i].getRecipeName(), allRecipes[i].getRecipeDetails(), allRecipes[i].getRecipeContents());
+                        // To Refresh Activity After Edit
+                        refreshActivity();
+                    }
+                });
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        // DELETE PROCESS
+                        delete(allRecipes[i].getRecipeName());
+                        // To Refresh Activity After Delete
+                        refreshActivity();
+                    }
+                });
+                builder.show();
+            }
+        });
+
+
     }
 
     // MENU PROCESSES
@@ -184,5 +222,22 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void delete(String recipeName) {
+        // DELETE RETROFIT CODE
+    }
+
+    protected void edit(String recipeName, String recipeDetails, String recipeContents) {
+        // EDIT RETROFIT CODE
+        Intent editRecipeActivityIntent = new Intent(getApplicationContext(), EditRecipeActivity.class);
+        editRecipeActivityIntent.putExtra("Recipe Name", recipeName);
+        editRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
+        editRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
+        startActivity(editRecipeActivityIntent);
+    }
+    protected void refreshActivity() {
+        finish();
+        startActivity(getIntent());
     }
 }

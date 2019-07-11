@@ -1,5 +1,7 @@
 package com.wisecity.foodrecipes;
 
+import android.widget.Toast;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Calendar;
@@ -35,8 +37,13 @@ public class Recipe {
         return recipeName;
     }
 
-    public Calendar getRecipePostTime() throws Exception {
-        return DateTime.toCalendar(recipePostTime);
+    public Calendar getRecipePostTime() {
+        try {
+            return DateTime.toCalendar(recipePostTime);
+        }catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     public String getRecipeDetails() {
