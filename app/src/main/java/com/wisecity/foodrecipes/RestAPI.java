@@ -34,7 +34,8 @@ public interface RestAPI {
     @GET("user/{username}")
     Call<JsonArray> getUserRecipes(@Path("username") String username);
 
-    @POST("/recipe") //@Headers("Authorization: {Bearer}")
-    Call<JsonObject> addRecipe( @Header("Token") String accessToken, @Body JsonObject body);
+    @Headers({ "Content-Type: application/json"})
+    @POST("/recipe")
+    Call<JsonObject> addRecipe( @Header("Authorization") String accessToken, @Body JsonObject body);
 
 }

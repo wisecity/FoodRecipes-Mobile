@@ -27,6 +27,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     private String recipeName;
     private String recipeContents;
     private String recipeDetails;
+    private String recipeDate = "2019-06-12T18:01:39";
 
     EditText eTRecipeName;
     EditText eTRecipeContents;
@@ -94,13 +95,18 @@ public class AddRecipeActivity extends AppCompatActivity {
         jsonObj.addProperty("name", recipeName);
         jsonObj.addProperty("contents", recipeContents);
         jsonObj.addProperty("details", recipeDetails);
+        jsonObj.addProperty("post_time", recipeDate);
 
         System.out.println("DEBUG 1:");
-        Call<JsonObject> call = rest.addRecipe(accessToken.getAccessToken(), jsonObj);
+        Call<JsonObject> call = rest.addRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), jsonObj);
         System.out.println("DEBUG 2: " + jsonObj);
+
+        System.out.println(call.request().toString());
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                System.out.println(response.body());
                 HttpResponse httpResponse = new HttpResponse(response.code(), response.message()); // body().get("status_code").getAsInt() and body().get("message").toString()
                 Toast.makeText(AddRecipeActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
                 switchToHomeActivity(accessToken);
