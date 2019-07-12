@@ -47,7 +47,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         eTRecipeContents = findViewById(R.id.eTRecipeContents);
         eTRecipeDetails = findViewById(R.id.eTRecipeDetails);
 
-        btnAddRecipe = findViewById(R.id.btnAddRecipe);
+        btnAddRecipe = findViewById(R.id.btnEditRecipe);
         btnAddRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

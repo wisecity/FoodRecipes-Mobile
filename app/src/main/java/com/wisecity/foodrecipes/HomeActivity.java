@@ -95,17 +95,18 @@ public class HomeActivity extends AppCompatActivity {
 
         rest = retrofit.create(RestAPI.class);
 
-        Call<JsonObject> call = rest.getAllRecipes();
-        call.enqueue(new Callback<JsonObject>() {
+        Call<JsonArray> call = rest.getAllRecipes();
+        System.out.println(call.request().toString()+   "SAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
 
                 Gson gson = new Gson(); //Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create(); // Gson object can be created like this too.
 
-                JsonObject resultList = response.body();
+                JsonArray resultList = response.body();
                 //System.out.println("RECIPE: " + resultList.get("Recipes")); // DEBUG PRINTING ALL RECIPES TO CONSOLE
-                JsonElement element = resultList.get("Recipes");
-                JsonArray array = element.getAsJsonArray();
+                //JsonElement element = resultList.get("Recipes");
+                JsonArray array = resultList; //element.getAsJsonArray();
                 //System.out.println(array.size()); // DEBUG
                 allRecipes = new Recipe[array.size()];
                 for(int i=0;i<array.size();i++){
@@ -120,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<JsonArray> call, Throwable t) {
                 System.out.println("FAILED");
             }
         });
@@ -164,40 +165,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
         lstAllRecipes.setAdapter(dataAdapter);
-
-
-        lstAllRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position,
-                                    long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                builder.setTitle("FoodRecipes");
-                builder.setMessage("What Would You Like To Do?");
-                builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        // EDIT PROCESS
-                        edit(allRecipes[i].getRecipeName(), allRecipes[i].getRecipeDetails(), allRecipes[i].getRecipeContents());
-                        // To Refresh Activity After Edit
-                        refreshActivity();
-                    }
-                });
-                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        // DELETE PROCESS
-                        delete(allRecipes[i].getRecipeName());
-                        // To Refresh Activity After Delete
-                        refreshActivity();
-                    }
-                });
-                builder.show();
-            }
-        });
-
-
     }
 
     // MENU PROCESSES
@@ -222,22 +189,5 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    protected void delete(String recipeName) {
-        // DELETE RETROFIT CODE
-    }
-
-    protected void edit(String recipeName, String recipeDetails, String recipeContents) {
-        // EDIT RETROFIT CODE
-        Intent editRecipeActivityIntent = new Intent(getApplicationContext(), EditRecipeActivity.class);
-        editRecipeActivityIntent.putExtra("Recipe Name", recipeName);
-        editRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
-        editRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
-        startActivity(editRecipeActivityIntent);
-    }
-    protected void refreshActivity() {
-        finish();
-        startActivity(getIntent());
     }
 }

@@ -173,6 +173,39 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         };
         lVAllUserRecipes.setAdapter(dataAdapter);
+
+        lVAllUserRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position,
+                                    long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+                builder.setTitle("FoodRecipes");
+                builder.setMessage("What Would You Like To Do?");
+                builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        // EDIT PROCESS
+                        System.out.println("DEBUG EDIT 1");
+                        edit(allUserRecipes[i].getRecipeName(), allUserRecipes[i].getRecipeDetails(), allUserRecipes[i].getRecipeContents());
+                        System.out.println("DEBUG EDIT 2");
+                        // To Refresh Activity After Edit
+                        refreshActivity();
+                    }
+                });
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        // DELETE PROCESS
+                        delete(allUserRecipes[i].getRecipeName());
+                        // To Refresh Activity After Delete
+                        refreshActivity();
+                    }
+                });
+                builder.create().show();
+            }
+        });
     }
 
     // MENU PROCESSES
@@ -197,5 +230,27 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void delete(String recipeName) {
+        // DELETE RETROFIT CODE
+    }
+
+    protected void edit(String recipeName, String recipeDetails, String recipeContents) {
+        // EDIT RETROFIT CODE
+        System.out.println("DEBUG EDIT 11");
+        Intent editRecipeActivityIntent = new Intent(getApplicationContext(), EditRecipeActivity.class);
+        editRecipeActivityIntent.putExtra("Recipe Name", recipeName);
+        System.out.println("DEBUG EDIT  12");
+        editRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
+        System.out.println("DEBUG EDIT  13");
+        editRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
+        System.out.println("DEBUG EDIT  14");
+        startActivity(editRecipeActivityIntent);
+    }
+    protected void refreshActivity() {
+        System.out.println("DEBUG EDIT  3");
+        finish();
+        startActivity(getIntent());
     }
 }

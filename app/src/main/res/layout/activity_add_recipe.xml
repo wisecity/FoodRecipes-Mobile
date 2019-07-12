@@ -64,14 +64,14 @@
         android:textColorHint="#fff"
         android:textSize="18sp"
         android:gravity="top|left"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddRecipe"
+        app:layout_constraintBottom_toTopOf="@+id/btnEditRecipe"
         app:layout_constraintEnd_toEndOf="@+id/eTRecipeContents"
         app:layout_constraintStart_toStartOf="@+id/eTRecipeContents"
         app:layout_constraintTop_toBottomOf="@+id/eTRecipeContents"
         app:layout_constraintVertical_bias="0.264" />
 
     <Button
-        android:id="@+id/btnAddRecipe"
+        android:id="@+id/btnEditRecipe"
         android:layout_width="250dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

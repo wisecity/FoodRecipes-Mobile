@@ -32,14 +32,14 @@ public class EditRecipeActivity extends AppCompatActivity {
     EditText eTRecipeName;
     EditText eTRecipeContents;
     EditText eTRecipeDetails;
-    Button btnAddRecipe;
+    Button btnEditRecipe;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_recipe);
+        setContentView(R.layout.activity_edit_recipe);
 
         initializeToken();
 
@@ -48,8 +48,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         eTRecipeDetails = findViewById(R.id.eTRecipeDetails);
         getInitialRecipeInfo();
 
-        btnAddRecipe = findViewById(R.id.btnAddRecipe);
-        btnAddRecipe.setOnClickListener(new View.OnClickListener() {
+        btnEditRecipe = findViewById(R.id.btnEditRecipe);
+        btnEditRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -58,10 +58,10 @@ public class EditRecipeActivity extends AppCompatActivity {
                     recipeContents = eTRecipeContents.getText().toString();
                     recipeDetails = eTRecipeDetails.getText().toString();
 
-                    sendAddRecipeData();
+                    sendEditRecipeData();
                 }
                 else {
-                    Toast.makeText(getApplicationContext() ,"Recipe Not Added: Please Enter Recipe Information And Try Again!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext() ,"Recipe Has Not Been Edited: Please Enter Recipe Information And Try Again!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -81,12 +81,12 @@ public class EditRecipeActivity extends AppCompatActivity {
     }
 
     protected void switchToHomeActivity(Token accessToken) {
-        Intent addRecipeHomeIntent = new Intent(getApplicationContext(), HomeActivity.class);
-        addRecipeHomeIntent.putExtra("accessToken", accessToken.getAccessToken());
-        startActivity(addRecipeHomeIntent);
+        Intent editRecipeHomeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        editRecipeHomeIntent.putExtra("accessToken", accessToken.getAccessToken());
+        startActivity(editRecipeHomeIntent);
     }
 
-    private void sendAddRecipeData() {
+    private void sendEditRecipeData() {
         RestAPIUrl url = new RestAPIUrl();
         Retrofit retrofit = url.createRetrofitFromUrl();
 
@@ -99,7 +99,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         jsonObj.addProperty("post_time", recipeDate);
 
         System.out.println("DEBUG 1:");
-        Call<JsonObject> call = rest.addRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), jsonObj);
+        Call<JsonObject> call = rest.editRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), jsonObj);
         System.out.println("DEBUG 2: " + jsonObj);
 
         System.out.println(call.request().toString());

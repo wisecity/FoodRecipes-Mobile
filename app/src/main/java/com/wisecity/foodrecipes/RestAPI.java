@@ -19,23 +19,27 @@ public interface RestAPI {
     @Headers({
             "Accept: application/json"
     })
-    @POST("user")
+    @POST("/api/register")
     Call<JsonObject> saveRegister(@Body JsonObject body);
 
     @Headers({
             "Accept: application/json"
     })
-    @POST("loginnn")
+    @POST("/api/login")
     Call<JsonObject> sendLogin(@Body JsonObject body);
 
-    @GET("/showrecipes")
-    Call<JsonObject> getAllRecipes();
+    @GET("/api/showAllRecipes")
+    Call<JsonArray> getAllRecipes();
 
-    @GET("user/{username}")
+    @GET("/api/getUserRecipes/{username}")
     Call<JsonArray> getUserRecipes(@Path("username") String username);
 
     @Headers({ "Content-Type: application/json"})
-    @POST("/recipe")
+    @POST("/api/addRecipe")
     Call<JsonObject> addRecipe( @Header("Authorization") String accessToken, @Body JsonObject body);
+
+    @Headers({ "Content-Type: application/json"})
+    @POST("/api/recipeManipulation")
+    Call<JsonObject> editRecipe( @Header("Authorization") String accessToken, @Body JsonObject body);
 
 }

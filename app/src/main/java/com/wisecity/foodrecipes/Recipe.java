@@ -32,6 +32,9 @@ public class Recipe {
     @SerializedName("user_id")
     private int userId;
 
+    @SerializedName("tags")
+    private String tags;
+
 
     public String getRecipeName() {
         return recipeName;
@@ -68,5 +71,9 @@ public class Recipe {
 
     public int getUserId() {
         return userId;
+    }
+
+    public String getTags() {
+        return tags;
     }
 }
