@@ -188,21 +188,22 @@ public class UserProfileActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         // EDIT PROCESS
-                        System.out.println("DEBUG EDIT 1");
-                        edit(allUserRecipes[i].getRecipeName(), allUserRecipes[i].getRecipeDetails(), allUserRecipes[i].getRecipeContents());
+                        System.out.println("DEBUG EDIT 1 " + i + " POSITION: " + position);
+                        edit(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents());
                         System.out.println("DEBUG EDIT 2");
                         // To Refresh Activity After Edit
-                        refreshActivity();
+                        //refreshActivity();
                     }
                 });
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        System.out.println("DELETE DEBUG:" + i);
                         // DELETE PROCESS
-                        delete(allUserRecipes[i].getRecipeName());
+                        System.out.println(allUserRecipes[position].getRecipeName() + "IS THE RECIPE TO BE DELETED!");
+                        sendDeleteRecipeData(allUserRecipes[position].getRecipeName());
                         // To Refresh Activity After Delete
-                        refreshActivity();
+                        //refreshActivity();
                     }
                 });
                 builder.create().show();
@@ -234,8 +235,31 @@ public class UserProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void delete(String recipeName) {
-        // DELETE RETROFIT CODE
+    protected void sendDeleteRecipeData(String recipeName) {
+        RestAPIUrl url = new RestAPIUrl();
+        Retrofit retrofit = url.createRetrofitFromUrl();
+
+        RestAPI rest = retrofit.create(RestAPI.class);
+
+        JsonObject jsonObj = new JsonObject();
+        jsonObj.addProperty("name", recipeName);
+
+        Call<JsonObject> call = rest.deleteRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), jsonObj);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                System.out.println(response.body());
+                HttpResponse httpResponse = new HttpResponse(response.code(), response.message()); // body().get("status_code").getAsInt() and body().get("message").toString()
+                Toast.makeText(UserProfileActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
+                switchToHomeActivity(accessToken);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(UserProfileActivity.this, "Error At Sending Deletion Of The Recipe Information To The Server!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     protected void edit(String recipeName, String recipeDetails, String recipeContents) {

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blackgradientbackground"
+    tools:context=".ViewRecipeActivity">
+
+    <ImageView
+        android:id="@+id/iVWiseCityLogo"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/wisecitylogo" />
+
+    <EditText
+        android:id="@+id/eTRecipeName"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:background="@null"
+        android:ems="10"
+        android:hint="Recipe Name:"
+        android:inputType="textPersonName"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="18sp"
+        android:gravity="top|left"
+        app:layout_constraintEnd_toEndOf="@+id/iVFoodRecipesLogo"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/iVFoodRecipesLogo"
+        app:layout_constraintTop_toBottomOf="@+id/iVFoodRecipesLogo" />
+
+    <EditText
+        android:id="@+id/eTRecipeContents"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:ems="10"
+        android:hint="Recipe Contents:"
+        android:inputType="textMultiLine"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="18sp"
+        android:gravity="top|left"
+        app:layout_constraintEnd_toEndOf="@+id/eTRecipeName"
+        app:layout_constraintStart_toStartOf="@+id/eTRecipeName"
+        app:layout_constraintTop_toBottomOf="@+id/eTRecipeName" />
+
+    <EditText
+        android:id="@+id/eTRecipeDetails"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:ems="10"
+        android:gravity="top|left"
+        android:hint="Recipe Details:"
+        android:inputType="textMultiLine"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/eTRecipeContents"
+        app:layout_constraintStart_toStartOf="@+id/eTRecipeContents"
+        app:layout_constraintTop_toBottomOf="@+id/eTRecipeContents" />
+
+    <ImageView
+        android:id="@+id/iVFoodRecipesLogo"
+        android:layout_width="200dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/foodrecipeslogo" />
+
+    <ImageButton
+        android:id="@+id/iBHome"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/blackgradientbackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iVWiseCityLogo"
+        app:layout_constraintTop_toTopOf="@+id/iVWiseCityLogo"
+        app:srcCompat="@drawable/ic_action_home" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

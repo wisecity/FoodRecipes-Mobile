@@ -165,6 +165,31 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
         lstAllRecipes.setAdapter(dataAdapter);
+
+        lstAllRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position,
+                                    long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                builder.setTitle("FoodRecipes");
+                builder.setMessage("Would You Like To View The Recipe?");
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Do Nothing.
+                    }
+                });
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Send To Recipe Page
+                        view(allRecipes[position].getRecipeName(), allRecipes[position].getRecipeDetails(), allRecipes[position].getRecipeContents());
+                        //refreshActivity();
+                    }
+                });
+                builder.create().show();
+            }
+        });
     }
 
     // MENU PROCESSES
@@ -189,5 +214,14 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void view(String recipeName, String recipeDetails, String recipeContents) {
+        // VIEW RETROFIT CODE
+        Intent viewRecipeActivityIntent = new Intent(getApplicationContext(), ViewRecipeActivity.class);
+        viewRecipeActivityIntent.putExtra("Recipe Name", recipeName);
+        viewRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
+        viewRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
+        startActivity(viewRecipeActivityIntent);
     }
 }

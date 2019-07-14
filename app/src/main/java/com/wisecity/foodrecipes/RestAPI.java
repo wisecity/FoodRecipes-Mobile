@@ -42,4 +42,8 @@ public interface RestAPI {
     @POST("/api/recipeManipulation")
     Call<JsonObject> editRecipe( @Header("Authorization") String accessToken, @Body JsonObject body);
 
+    @Headers({ "Content-Type: application/json"})
+    @POST("/api/recipeManipulation")
+    Call<JsonObject> deleteRecipe( @Header("Authorization") String accessToken, @Body JsonObject body);
+
 }
