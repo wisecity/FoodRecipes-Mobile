@@ -114,18 +114,20 @@ public class UserProfileActivity extends AppCompatActivity {
                 System.out.println(response.code());
                 System.out.println(response.message());
                 //System.out.println("RECIPE: " + resultList.get("Recipes")); // DEBUG PRINTING ALL RECIPES TO CONSOLE
-                JsonElement element = resultList.get(0);
-                //JsonArray array = element.getAsJsonArray();
-                allUserRecipes = new Recipe[resultList.size()];
-                for(int i=0;i<resultList.size();i++){
+                if(resultList.size() > 0) { // Null Control for the user page to enter the profiles of users with zero recipes. (resultList.size() is zero when there is no recipes).
+                    JsonElement element = resultList.get(0);
+                    //JsonArray array = element.getAsJsonArray();
+                    allUserRecipes = new Recipe[resultList.size()];
+                    for (int i = 0; i < resultList.size(); i++) {
 
-                    Recipe obj = gson.fromJson((resultList.get(i)).toString(),Recipe.class); // ERROR
+                        Recipe obj = gson.fromJson((resultList.get(i)).toString(), Recipe.class); // ERROR
 
-                    allUserRecipes[i] = obj;
-                    System.out.println(allUserRecipes[i].getRecipeName());
+                        allUserRecipes[i] = obj;
+                        System.out.println(allUserRecipes[i].getRecipeName());
+                    }
+                    //System.out.println("SUCCESSFUL");
+                    putAllUserRecipesToList();
                 }
-                //System.out.println("SUCCESSFUL");
-                putAllUserRecipesToList();
             }
 
             @Override
