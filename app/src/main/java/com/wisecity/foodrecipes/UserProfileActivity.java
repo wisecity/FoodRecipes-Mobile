@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +32,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,8 +49,10 @@ public class UserProfileActivity extends AppCompatActivity {
     private Recipe[] allUserRecipes;
     ImageButton iBHome;
     ImageButton iBAddRecipe;
-
+    EditText etFilter;
     ListView lVAllUserRecipes;
+    Context context = this;
+    ArrayList<String> tempList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +75,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 switchToAddRecipeActivity(accessToken);
             }
         });
-
-        lVAllUserRecipes = findViewById(R.id.lVAllUserRecipes);
+        etFilter = (EditText) findViewById(R.id.etFilter);
+        lVAllUserRecipes = (ListView) findViewById(R.id.lVAllUserRecipes);
         getRecipes();
     }
 
@@ -126,6 +133,41 @@ public class UserProfileActivity extends AppCompatActivity {
                         System.out.println(allUserRecipes[i].getRecipeName());
                     }
                     //System.out.println("SUCCESSFUL");
+                    final String names[] = new String[allUserRecipes.length];
+                    for(int i=0;i<allUserRecipes.length;i++){
+                        names[i]=allUserRecipes[i].getRecipeName();
+                    }
+                    ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
+                            (context, android.R.layout.simple_list_item_1, android.R.id.text1, names){
+
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent){
+                            // Cast the list view each item as text view
+                            TextView item = (TextView) super.getView(position,convertView,parent);
+
+                            // Set the typeface/font for the current item
+
+
+                            // Set the list view item's text color
+                            item.setTextColor(Color.parseColor("#ffffff"));
+
+                            // Set the item text style to bold
+                            item.setTypeface(item.getTypeface(), Typeface.BOLD);
+
+
+                            // Change the item text size
+                            item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+
+                            ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
+                            layoutparams.height = 170;
+
+                            item.setLayoutParams(layoutparams);
+
+                            // return the view
+                            return item;
+                        }
+                    };
+                    lVAllUserRecipes.setAdapter(dataAdapter);
                     putAllUserRecipesToList();
                 }
             }
@@ -144,37 +186,105 @@ public class UserProfileActivity extends AppCompatActivity {
             names[i]=allUserRecipes[i].getRecipeName();
         }
 
-        ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, android.R.id.text1, names){
+        etFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                // Cast the list view each item as text view
-                TextView item = (TextView) super.getView(position,convertView,parent);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tempList.clear();
+                System.out.println("S:" + s.length());
 
-                // Set the typeface/font for the current item
+                for(int i = 0; i < allUserRecipes.length ; i++){
+                    if (allUserRecipes[i].getRecipeName().toLowerCase().contains(s.toString().toLowerCase())) {
+                        tempList.add(allUserRecipes[i].getRecipeName());
+                    }
+
+                }
+                if(tempList != null && tempList.size() > 0){
+                    ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
+                            (context, android.R.layout.simple_list_item_1, android.R.id.text1, tempList){
+
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent){
+                            // Cast the list view each item as text view
+                            TextView item = (TextView) super.getView(position,convertView,parent);
+
+                            // Set the typeface/font for the current item
 
 
-                // Set the list view item's text color
-                item.setTextColor(Color.parseColor("#ffffff"));
+                            // Set the list view item's text color
+                            item.setTextColor(Color.parseColor("#ffffff"));
 
-                // Set the item text style to bold
-                item.setTypeface(item.getTypeface(), Typeface.BOLD);
+                            // Set the item text style to bold
+                            item.setTypeface(item.getTypeface(), Typeface.BOLD);
 
 
-                // Change the item text size
-                item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+                            // Change the item text size
+                            item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
 
-                ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
-                layoutparams.height = 170;
+                            ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
+                            layoutparams.height = 170;
 
-                item.setLayoutParams(layoutparams);
+                            item.setLayoutParams(layoutparams);
 
-                // return the view
-                return item;
+                            // return the view
+                            return item;
+                        }
+                    };
+                    lVAllUserRecipes.setAdapter(dataAdapter);
+                    //lVAllUserRecipes.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, tempList));
+                }
+
+                else if(tempList.size() == 0){
+                    lVAllUserRecipes.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, tempList));
+                }
+
+                else if(s.length() == 0){
+                    ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
+                            (context, android.R.layout.simple_list_item_1, android.R.id.text1, names){
+
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent){
+                            // Cast the list view each item as text view
+                            TextView item = (TextView) super.getView(position,convertView,parent);
+
+                            // Set the typeface/font for the current item
+
+
+                            // Set the list view item's text color
+                            item.setTextColor(Color.parseColor("#ffffff"));
+
+                            // Set the item text style to bold
+                            item.setTypeface(item.getTypeface(), Typeface.BOLD);
+
+
+                            // Change the item text size
+                            item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+
+                            ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
+                            layoutparams.height = 170;
+
+                            item.setLayoutParams(layoutparams);
+
+                            // return the view
+                            return item;
+                        }
+                    };
+                    lVAllUserRecipes.setAdapter(dataAdapter);
+                    //lVAllUserRecipes.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, names));
+                }
+
+
             }
-        };
-        lVAllUserRecipes.setAdapter(dataAdapter);
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         lVAllUserRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
