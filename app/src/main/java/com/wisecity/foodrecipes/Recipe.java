@@ -9,7 +9,7 @@ import java.util.Calendar;
 public class Recipe {
 
     @SerializedName("id")
-    private int recipeId;
+    private String recipeId;
 
     @SerializedName("name")
     private String recipeName;
@@ -65,7 +65,7 @@ public class Recipe {
         return recipeScore;
     }
 
-    public int getRecipeId() {
+    public String getRecipeId() {
         return recipeId;
     }
 

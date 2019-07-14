@@ -28,6 +28,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     private String recipeContents;
     private String recipeDetails;
     private String recipeDate = "2019-06-12T18:01:39";
+    private String recipeId;
 
     EditText eTRecipeName;
     EditText eTRecipeContents;
@@ -98,9 +99,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         jsonObj.addProperty("details", recipeDetails);
         jsonObj.addProperty("post_time", recipeDate);
 
-        System.out.println("DEBUG 1:");
-        Call<JsonObject> call = rest.editRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), jsonObj);
-        System.out.println("DEBUG 2: " + jsonObj);
+        Call<JsonObject> call = rest.editRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), recipeId, jsonObj);
 
         System.out.println(call.request().toString());
 
@@ -110,6 +109,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 System.out.println(response.body());
                 HttpResponse httpResponse = new HttpResponse(response.code(), response.message()); // body().get("status_code").getAsInt() and body().get("message").toString()
                 Toast.makeText(getApplicationContext(), httpResponse.toString(), Toast.LENGTH_LONG).show();
+                System.out.println("BURAYA GIRIYOR");
                 switchToHomeActivity(accessToken);
             }
 
@@ -149,6 +149,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeName = bundleEditRecipe.getString("Recipe Name");
         recipeContents = bundleEditRecipe.getString("Recipe Contents");
         recipeDetails = bundleEditRecipe.getString("Recipe Details");
+        recipeId = bundleEditRecipe.getString("Recipe Id");
         eTRecipeName.setText(recipeName);
         eTRecipeContents.setText(recipeContents);
         eTRecipeDetails.setText(recipeDetails);

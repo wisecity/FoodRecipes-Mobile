@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -39,11 +40,11 @@ public interface RestAPI {
     Call<JsonObject> addRecipe( @Header("Authorization") String accessToken, @Body JsonObject body);
 
     @Headers({ "Content-Type: application/json"})
-    @POST("/api/recipeManipulation")
-    Call<JsonObject> editRecipe( @Header("Authorization") String accessToken, @Body JsonObject body);
+    @POST("/api/recipeManipulation/{recipe_id}")
+    Call<JsonObject> editRecipe( @Header("Authorization") String accessToken, @Path("recipe_id") String recipeId, @Body JsonObject body);
 
     @Headers({ "Content-Type: application/json"})
-    @POST("/api/recipeManipulation")
-    Call<JsonObject> deleteRecipe( @Header("Authorization") String accessToken, @Body JsonObject body);
+    @DELETE("/api/recipeManipulation/{recipe_id}")
+    Call<JsonObject> deleteRecipe( @Header("Authorization") String accessToken, @Path("recipe_id") String recipeId);
 
 }

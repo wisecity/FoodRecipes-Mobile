@@ -96,7 +96,6 @@ public class HomeActivity extends AppCompatActivity {
         rest = retrofit.create(RestAPI.class);
 
         Call<JsonArray> call = rest.getAllRecipes();
-        System.out.println(call.request().toString()+   "SAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {

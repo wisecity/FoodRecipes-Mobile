@@ -108,9 +108,7 @@ public class UserProfileActivity extends AppCompatActivity {
         retrofit = url.createRetrofitFromUrl();
 
         rest = retrofit.create(RestAPI.class);
-        System.out.println("DEBUg 1: " + LoginActivity.userName);
         Call<JsonArray> call = rest.getUserRecipes(LoginActivity.userName);//LoginActivity.userName
-        System.out.println("DEBUg 2");
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -298,9 +296,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         // EDIT PROCESS
-                        System.out.println("DEBUG EDIT 1 " + i + " POSITION: " + position);
-                        edit(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents());
-                        System.out.println("DEBUG EDIT 2");
+                        edit(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents(), allUserRecipes[position].getRecipeId());
                         // To Refresh Activity After Edit
                         //refreshActivity();
                     }
@@ -308,12 +304,18 @@ public class UserProfileActivity extends AppCompatActivity {
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        System.out.println("DELETE DEBUG:" + i);
                         // DELETE PROCESS
                         System.out.println(allUserRecipes[position].getRecipeName() + "IS THE RECIPE TO BE DELETED!");
-                        sendDeleteRecipeData(allUserRecipes[position].getRecipeName());
+                        sendDeleteRecipeData(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeId());
                         // To Refresh Activity After Delete
                         //refreshActivity();
+                    }
+                });
+                builder.setNeutralButton("View", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // VIEW PROCESS
+                        viewUserRecipe(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents());
                     }
                 });
                 builder.create().show();
@@ -345,7 +347,7 @@ public class UserProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void sendDeleteRecipeData(String recipeName) {
+    protected void sendDeleteRecipeData(String recipeName, String recipeId) {
         RestAPIUrl url = new RestAPIUrl();
         Retrofit retrofit = url.createRetrofitFromUrl();
 
@@ -354,7 +356,7 @@ public class UserProfileActivity extends AppCompatActivity {
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty("name", recipeName);
 
-        Call<JsonObject> call = rest.deleteRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), jsonObj);
+        Call<JsonObject> call = rest.deleteRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), recipeId);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -372,20 +374,28 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    protected void edit(String recipeName, String recipeDetails, String recipeContents) {
+    protected void edit(String recipeName, String recipeDetails, String recipeContents, String recipeId) {
         // EDIT RETROFIT CODE
-        System.out.println("DEBUG EDIT 11");
         Intent editRecipeActivityIntent = new Intent(getApplicationContext(), EditRecipeActivity.class);
         editRecipeActivityIntent.putExtra("Recipe Name", recipeName);
-        System.out.println("DEBUG EDIT  12");
         editRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
-        System.out.println("DEBUG EDIT  13");
         editRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
-        System.out.println("DEBUG EDIT  14");
+        editRecipeActivityIntent.putExtra("Recipe Id", recipeId);
+        editRecipeActivityIntent.putExtra("accessToken", accessToken.getAccessToken());
         startActivity(editRecipeActivityIntent);
     }
+
+    private void viewUserRecipe(String recipeName, String recipeDetails, String recipeContents) {
+        // VIEW RETROFIT CODE
+        Intent viewUserRecipeActivityIntent = new Intent(getApplicationContext(), ViewUserRecipeActivity.class);
+        viewUserRecipeActivityIntent.putExtra("Recipe Name", recipeName);
+        viewUserRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
+        viewUserRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
+        startActivity(viewUserRecipeActivityIntent);
+    }
+
+
     protected void refreshActivity() {
-        System.out.println("DEBUG EDIT  3");
         finish();
         startActivity(getIntent());
     }
