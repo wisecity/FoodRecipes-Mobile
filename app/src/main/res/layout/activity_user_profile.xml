@@ -59,7 +59,7 @@
         app:srcCompat="@drawable/ic_action_add_recipe" />
 
     <EditText
-        android:id="@+id/etFilter"
+        android:id="@+id/eTFilter"
         android:layout_width="396dp"
         android:layout_height="47dp"
         android:layout_marginStart="8dp"
@@ -72,6 +72,7 @@
         android:textColorHint="#fff"
         app:layout_constraintBottom_toTopOf="@+id/lVAllUserRecipes"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iVFoodRecipesLogo" />
 
@@ -86,6 +87,6 @@
         app:layout_constraintBottom_toTopOf="@+id/iVWiseCityLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etFilter" />
+        app:layout_constraintTop_toBottomOf="@+id/eTFilter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

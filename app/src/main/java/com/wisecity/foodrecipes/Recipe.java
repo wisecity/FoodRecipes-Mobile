@@ -26,8 +26,8 @@ public class Recipe {
     @SerializedName("views")
     private int recipeViews;
 
-    @SerializedName("score")
-    private int recipeScore;
+    @SerializedName("likes")
+    private int recipeLikes;
 
     @SerializedName("user_id")
     private int userId;
@@ -40,13 +40,8 @@ public class Recipe {
         return recipeName;
     }
 
-    public Calendar getRecipePostTime() {
-        try {
-            return DateTime.toCalendar(recipePostTime);
-        }catch (Exception e) {
-            e.getMessage();
-            return null;
-        }
+    public String getRecipePostTime() {
+        return recipePostTime;
     }
 
     public String getRecipeDetails() {
@@ -61,8 +56,8 @@ public class Recipe {
         return recipeViews;
     }
 
-    public int getRecipeScore() {
-        return recipeScore;
+    public int getRecipeLikes() {
+        return recipeLikes;
     }
 
     public String getRecipeId() {

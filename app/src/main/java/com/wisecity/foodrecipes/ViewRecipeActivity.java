@@ -20,10 +20,12 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private String recipeName;
     private String recipeContents;
     private String recipeDetails;
+    private  String recipePostTime;
 
     EditText eTRecipeName;
     EditText eTRecipeContents;
     EditText eTRecipeDetails;
+    EditText eTRecipePostTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +44,14 @@ public class ViewRecipeActivity extends AppCompatActivity {
         eTRecipeName = findViewById(R.id.eTRecipeName);
         eTRecipeContents = findViewById(R.id.eTRecipeContents);
         eTRecipeDetails = findViewById(R.id.eTRecipeDetails);
+        eTRecipePostTime = findViewById(R.id.eTRecipePostTime);
 
         getInitialRecipeInfo();
 
         eTRecipeName.setEnabled(false);
         eTRecipeContents.setEnabled(false);
         eTRecipeDetails.setEnabled(false);
+        eTRecipePostTime.setEnabled(false);
     }
 
     protected String getAccessTokenFromOtherActivities() {
@@ -72,9 +76,11 @@ public class ViewRecipeActivity extends AppCompatActivity {
         recipeName = bundleViewRecipe.getString("Recipe Name");
         recipeContents = bundleViewRecipe.getString("Recipe Contents");
         recipeDetails = bundleViewRecipe.getString("Recipe Details");
+        recipePostTime = bundleViewRecipe.getString("Post Time");
         eTRecipeName.setText(recipeName);
         eTRecipeContents.setText(recipeContents);
         eTRecipeDetails.setText(recipeDetails);
+        eTRecipePostTime.setText(recipePostTime);
     }
 
     // MENU PROCESSES

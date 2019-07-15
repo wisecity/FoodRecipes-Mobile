@@ -12,7 +12,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +32,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,7 +73,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 switchToAddRecipeActivity(accessToken);
             }
         });
-        etFilter = (EditText) findViewById(R.id.etFilter);
+        etFilter = (EditText) findViewById(R.id.eTFilter);
         lVAllUserRecipes = (ListView) findViewById(R.id.lVAllUserRecipes);
         getRecipes();
     }
@@ -315,7 +313,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // VIEW PROCESS
-                        viewUserRecipe(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents());
+                        viewUserRecipe(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents(), allUserRecipes[position].getRecipePostTime());
                     }
                 });
                 builder.create().show();
@@ -385,12 +383,13 @@ public class UserProfileActivity extends AppCompatActivity {
         startActivity(editRecipeActivityIntent);
     }
 
-    private void viewUserRecipe(String recipeName, String recipeDetails, String recipeContents) {
+    private void viewUserRecipe(String recipeName, String recipeDetails, String recipeContents, String recipePostTime) {
         // VIEW RETROFIT CODE
         Intent viewUserRecipeActivityIntent = new Intent(getApplicationContext(), ViewUserRecipeActivity.class);
         viewUserRecipeActivityIntent.putExtra("Recipe Name", recipeName);
         viewUserRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
         viewUserRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
+        viewUserRecipeActivityIntent.putExtra("Post Time", recipePostTime);
         startActivity(viewUserRecipeActivityIntent);
     }
 

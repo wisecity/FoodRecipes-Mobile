@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,7 +30,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     private String recipeName;
     private String recipeContents;
     private String recipeDetails;
-    private String recipeDate = "2019-06-12T18:01:39";
+    private String recipeDate;
     private String recipeId;
 
     EditText eTRecipeName;
@@ -58,6 +61,9 @@ public class EditRecipeActivity extends AppCompatActivity {
                     recipeName = eTRecipeName.getText().toString();
                     recipeContents = eTRecipeContents.getText().toString();
                     recipeDetails = eTRecipeDetails.getText().toString();
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    Calendar calendar = Calendar.getInstance();
+                    recipeDate = formatter.format(calendar.getTime());
 
                     sendEditRecipeData();
                 }

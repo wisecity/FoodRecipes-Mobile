@@ -42,10 +42,28 @@
         app:layout_constraintTop_toTopOf="@+id/iVWiseCityLogo"
         app:srcCompat="@drawable/ic_action_profile" />
 
+    <EditText
+        android:id="@+id/eTFilter"
+        android:layout_width="396dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:hint="Search.."
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        app:layout_constraintBottom_toTopOf="@+id/lstAllRecipes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iVFoodRecipesLogo" />
+
+
     <ListView
         android:id="@+id/lstAllRecipes"
-        android:layout_width="395dp"
-        android:layout_height="360dp"
+        android:layout_width="402dp"
+        android:layout_height="299dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -53,7 +71,7 @@
         app:layout_constraintBottom_toTopOf="@+id/iVWiseCityLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iVFoodRecipesLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/eTFilter" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

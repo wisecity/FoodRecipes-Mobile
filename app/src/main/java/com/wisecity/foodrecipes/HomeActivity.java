@@ -4,13 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,18 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +45,9 @@ public class HomeActivity extends AppCompatActivity {
     private RestAPI rest;
     private RestAPIUrl url;
     private Retrofit retrofit;
+    EditText eTFilter;
+    Context context = this;
+    ArrayList<String> tempList = new ArrayList<>();
 
     ListView lstAllRecipes;
 
@@ -66,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        eTFilter = (EditText) findViewById(R.id.eTFilter);
         lstAllRecipes = findViewById(R.id.lstAllRecipes);
         getRecipes();
 
@@ -115,6 +118,42 @@ public class HomeActivity extends AppCompatActivity {
                     allRecipes[i] = obj;
                     //System.out.println(allRecipes[i].getRecipeName());
                 }
+
+                final String names[] = new String[allRecipes.length];
+                for(int i=0;i<allRecipes.length;i++){
+                    names[i]=allRecipes[i].getRecipeName();
+                }
+                ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
+                        (context, android.R.layout.simple_list_item_1, android.R.id.text1, names){
+
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent){
+                        // Cast the list view each item as text view
+                        TextView item = (TextView) super.getView(position,convertView,parent);
+
+                        // Set the typeface/font for the current item
+
+
+                        // Set the list view item's text color
+                        item.setTextColor(Color.parseColor("#ffffff"));
+
+                        // Set the item text style to bold
+                        item.setTypeface(item.getTypeface(), Typeface.BOLD);
+
+
+                        // Change the item text size
+                        item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+
+                        ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
+                        layoutparams.height = 170;
+
+                        item.setLayoutParams(layoutparams);
+
+                        // return the view
+                        return item;
+                    }
+                };
+                lstAllRecipes.setAdapter(dataAdapter);
                 //System.out.println("SUCCESSFUL");
                 putAllRecipesToList();
             }
@@ -132,38 +171,106 @@ public class HomeActivity extends AppCompatActivity {
             names[i]=allRecipes[i].getRecipeName();
         }
 
-        ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, android.R.id.text1, names){
+        eTFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                // Cast the list view each item as text view
-                TextView item = (TextView) super.getView(position,convertView,parent);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tempList.clear();
+                System.out.println("S:" + s.length());
 
-                // Set the typeface/font for the current item
+                for(int i = 0; i < allRecipes.length ; i++){
+                    if (allRecipes[i].getRecipeName().toLowerCase().contains(s.toString().toLowerCase())) {
+                        tempList.add(allRecipes[i].getRecipeName());
+                    }
+
+                }
+                if(tempList != null && tempList.size() > 0){
+                    ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
+                            (context, android.R.layout.simple_list_item_1, android.R.id.text1, tempList){
+
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent){
+                            // Cast the list view each item as text view
+                            TextView item = (TextView) super.getView(position,convertView,parent);
+
+                            // Set the typeface/font for the current item
 
 
-                // Set the list view item's text color
-                item.setTextColor(Color.parseColor("#ffffff"));
+                            // Set the list view item's text color
+                            item.setTextColor(Color.parseColor("#ffffff"));
 
-                // Set the item text style to bold
-                item.setTypeface(item.getTypeface(), Typeface.BOLD);
-
-
-                // Change the item text size
-                item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
-
-                ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
-                layoutparams.height = 170;
-
-                item.setLayoutParams(layoutparams);
+                            // Set the item text style to bold
+                            item.setTypeface(item.getTypeface(), Typeface.BOLD);
 
 
-                // return the view
-                return item;
+                            // Change the item text size
+                            item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+
+                            ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
+                            layoutparams.height = 170;
+
+                            item.setLayoutParams(layoutparams);
+
+                            // return the view
+                            return item;
+                        }
+                    };
+                    lstAllRecipes.setAdapter(dataAdapter);
+                    //lVAllUserRecipes.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, tempList));
+                }
+
+                else if(tempList.size() == 0){
+                    lstAllRecipes.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, tempList));
+                }
+
+                else if(s.length() == 0){
+                    ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
+                            (context, android.R.layout.simple_list_item_1, android.R.id.text1, names){
+
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent){
+                            // Cast the list view each item as text view
+                            TextView item = (TextView) super.getView(position,convertView,parent);
+
+                            // Set the typeface/font for the current item
+
+
+                            // Set the list view item's text color
+                            item.setTextColor(Color.parseColor("#ffffff"));
+
+                            // Set the item text style to bold
+                            item.setTypeface(item.getTypeface(), Typeface.BOLD);
+
+
+                            // Change the item text size
+                            item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+
+                            ViewGroup.LayoutParams layoutparams = item.getLayoutParams();
+                            layoutparams.height = 170;
+
+                            item.setLayoutParams(layoutparams);
+
+                            // return the view
+                            return item;
+                        }
+                    };
+                    lstAllRecipes.setAdapter(dataAdapter);
+                    //lVAllUserRecipes.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, names));
+                }
+
+
             }
-        };
-        lstAllRecipes.setAdapter(dataAdapter);
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         lstAllRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -182,7 +289,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Send To Recipe Page
-                        view(allRecipes[position].getRecipeName(), allRecipes[position].getRecipeDetails(), allRecipes[position].getRecipeContents());
+                        view(allRecipes[position].getRecipeName(), allRecipes[position].getRecipeDetails(), allRecipes[position].getRecipeContents(), allRecipes[position].getRecipePostTime());
                         //refreshActivity();
                     }
                 });
@@ -215,12 +322,13 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void view(String recipeName, String recipeDetails, String recipeContents) {
+    protected void view(String recipeName, String recipeDetails, String recipeContents, String recipePostTime) {
         // VIEW RETROFIT CODE
         Intent viewRecipeActivityIntent = new Intent(getApplicationContext(), ViewRecipeActivity.class);
         viewRecipeActivityIntent.putExtra("Recipe Name", recipeName);
         viewRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
         viewRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
+        viewRecipeActivityIntent.putExtra("Post Time", recipePostTime);
         startActivity(viewRecipeActivityIntent);
     }
 }
