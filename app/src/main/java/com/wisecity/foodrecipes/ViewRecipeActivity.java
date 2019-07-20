@@ -108,6 +108,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private void switchToViewRecipeImagesActivity(Token accessToken) {
         Intent viewRecipeImagesIntent = new Intent(getApplicationContext(), ViewRecipeImagesActivity.class);
         viewRecipeImagesIntent.putExtra("accessToken", accessToken.getAccessToken());
+        viewRecipeImagesIntent.putExtra("Recipe Id", recipeId);
         startActivity(viewRecipeImagesIntent);
     }
 

@@ -48,13 +48,13 @@ public interface RestAPI {
     @POST("/api/{recipe_id}/like")
     Call<JsonObject> likeRecipe(@Path("recipe_id") String recipeId);
 
-    @GET("/api/{recipeid}/finalphoto")
-    Call<JsonObject> getRecipeFinalPhoto();
+    @GET("/api/{recipe_id}/finalphoto")
+    Call<JsonArray> getRecipeFinalPhoto(@Path("recipe_id") String recipeId);
 
-    @GET("/api/{recipeid}/ingredientphoto")
-    Call<JsonObject> getRecipeIngredientPhoto();
+    @GET("/api/{recipe_id}/ingredientphoto")
+    Call<JsonArray> getRecipeIngredientPhoto(@Path("recipe_id") String recipeId);
 
-    @GET("/api/{recipeid}/stepphoto")
-    Call<JsonObject> getRecipeStepPhoto();
+    @GET("/api/{recipe_id}/stepphoto")
+    Call<JsonArray> getRecipeStepPhoto(@Path("recipe_id") String recipeId);
 
 }
