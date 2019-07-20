@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 public class ViewRecipeActivity extends AppCompatActivity {
     ImageButton iBHome;
+    ImageButton iBUrl;
     private Token accessToken;
 
     private String recipeName;
@@ -22,6 +23,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private String recipeDetails;
     private  String recipePostTime;
     private String recipeTags;
+    private String recipeId;
 
     EditText eTRecipeName;
     EditText eTRecipeContents;
@@ -40,6 +42,14 @@ public class ViewRecipeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switchToHomeActivity(accessToken);
+            }
+        });
+
+        iBUrl = findViewById(R.id.iBUrl);
+        iBUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareUrl();
             }
         });
 
@@ -82,6 +92,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         recipeDetails = bundleViewRecipe.getString("Recipe Details");
         recipePostTime = bundleViewRecipe.getString("Post Time");
         recipeTags = bundleViewRecipe.getString("Recipe Tags");
+        recipeId = bundleViewRecipe.getString("Recipe Id");
         eTRecipeName.setText(recipeName);
         eTRecipeContents.setText(recipeContents);
         eTRecipeDetails.setText(recipeDetails);
@@ -114,5 +125,12 @@ public class ViewRecipeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void shareUrl() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "https://foodrecipesbil495.herokuapp.com/recipedetails/" + recipeId);
+        startActivity(Intent.createChooser(shareIntent, "Share with"));
+    }
 
 }
