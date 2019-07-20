@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eTRecipeTags"
+            app:layout_constraintTop_toBottomOf="@+id/eTRecipeLikes"
             app:srcCompat="@drawable/wisecitylogo" />
 
         <EditText
@@ -103,6 +103,22 @@
             app:layout_constraintStart_toStartOf="@+id/eTRecipePostTime"
             app:layout_constraintTop_toBottomOf="@+id/eTRecipePostTime" />
 
+        <EditText
+        android:id="@+id/eTRecipeLikes"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@null"
+        android:ems="10"
+        android:gravity="top|left"
+        android:hint="Likes:"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/eTRecipeTags"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="@+id/eTRecipeTags"
+        app:layout_constraintTop_toBottomOf="@+id/eTRecipeTags" />
+
         <ImageView
             android:id="@+id/iVFoodRecipesLogo"
             android:layout_width="200dp"
@@ -136,10 +152,23 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/blackgradientbackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iVWiseCityLogo"
+            app:layout_constraintTop_toBottomOf="@+id/iBUserProfile"
+            app:srcCompat="@drawable/ic_action_url" />
+
+        <ImageButton
+            android:id="@+id/iBLike"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/blackgradientbackground"
             app:layout_constraintEnd_toStartOf="@+id/iVWiseCityLogo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/iVWiseCityLogo"
-            app:srcCompat="@drawable/ic_action_url" />
+            app:srcCompat="@drawable/ic_action_like" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
