@@ -294,7 +294,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         // EDIT PROCESS
-                        edit(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents(), allUserRecipes[position].getRecipeId());
+                        edit(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents(), allUserRecipes[position].getRecipeId(), allUserRecipes[position].getRecipeTags());
                         // To Refresh Activity After Edit
                         //refreshActivity();
                     }
@@ -313,7 +313,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // VIEW PROCESS
-                        viewUserRecipe(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents(), allUserRecipes[position].getRecipePostTime());
+                        viewUserRecipe(allUserRecipes[position].getRecipeName(), allUserRecipes[position].getRecipeDetails(), allUserRecipes[position].getRecipeContents(), allUserRecipes[position].getRecipePostTime(), allUserRecipes[position].getRecipeTags());
                     }
                 });
                 builder.create().show();
@@ -372,24 +372,26 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    protected void edit(String recipeName, String recipeDetails, String recipeContents, String recipeId) {
+    protected void edit(String recipeName, String recipeDetails, String recipeContents, String recipeId, String recipeTags) {
         // EDIT RETROFIT CODE
         Intent editRecipeActivityIntent = new Intent(getApplicationContext(), EditRecipeActivity.class);
         editRecipeActivityIntent.putExtra("Recipe Name", recipeName);
         editRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
         editRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
         editRecipeActivityIntent.putExtra("Recipe Id", recipeId);
+        editRecipeActivityIntent.putExtra("Recipe Tags", recipeTags);
         editRecipeActivityIntent.putExtra("accessToken", accessToken.getAccessToken());
         startActivity(editRecipeActivityIntent);
     }
 
-    private void viewUserRecipe(String recipeName, String recipeDetails, String recipeContents, String recipePostTime) {
+    private void viewUserRecipe(String recipeName, String recipeDetails, String recipeContents, String recipePostTime, String recipeTags) {
         // VIEW RETROFIT CODE
         Intent viewUserRecipeActivityIntent = new Intent(getApplicationContext(), ViewUserRecipeActivity.class);
         viewUserRecipeActivityIntent.putExtra("Recipe Name", recipeName);
         viewUserRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
         viewUserRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
         viewUserRecipeActivityIntent.putExtra("Post Time", recipePostTime);
+        viewUserRecipeActivityIntent.putExtra("Recipe Tags", recipeTags);
         startActivity(viewUserRecipeActivityIntent);
     }
 

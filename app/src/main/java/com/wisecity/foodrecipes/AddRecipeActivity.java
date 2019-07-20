@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -33,10 +34,12 @@ public class AddRecipeActivity extends AppCompatActivity {
     private String recipeContents;
     private String recipeDetails;
     private String recipeDate;
+    private String recipeTags;
 
     EditText eTRecipeName;
     EditText eTRecipeContents;
     EditText eTRecipeDetails;
+    EditText eTRecipeTags;
     Button btnAddRecipe;
 
 
@@ -51,6 +54,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         eTRecipeName = findViewById(R.id.eTRecipeName);
         eTRecipeContents = findViewById(R.id.eTRecipeContents);
         eTRecipeDetails = findViewById(R.id.eTRecipeDetails);
+        eTRecipeTags = findViewById(R.id.eTRecipeTags);
 
         btnAddRecipe = findViewById(R.id.btnEditRecipe);
         btnAddRecipe.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +65,7 @@ public class AddRecipeActivity extends AppCompatActivity {
                     recipeName = eTRecipeName.getText().toString();
                     recipeContents = eTRecipeContents.getText().toString();
                     recipeDetails = eTRecipeDetails.getText().toString();
+                    recipeTags = eTRecipeTags.getText().toString();
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                     Calendar calendar = Calendar.getInstance();
                     recipeDate = formatter.format(calendar.getTime());
@@ -104,6 +109,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         jsonObj.addProperty("contents", recipeContents);
         jsonObj.addProperty("details", recipeDetails);
         jsonObj.addProperty("post_time", recipeDate);
+        jsonObj.addProperty("tags", recipeTags);
 
         System.out.println("DEBUG 1:");
         Call<JsonObject> call = rest.addRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), jsonObj);

@@ -21,11 +21,13 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private String recipeContents;
     private String recipeDetails;
     private  String recipePostTime;
+    private String recipeTags;
 
     EditText eTRecipeName;
     EditText eTRecipeContents;
     EditText eTRecipeDetails;
     EditText eTRecipePostTime;
+    EditText eTRecipeTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         eTRecipeContents = findViewById(R.id.eTRecipeContents);
         eTRecipeDetails = findViewById(R.id.eTRecipeDetails);
         eTRecipePostTime = findViewById(R.id.eTRecipePostTime);
+        eTRecipeTags = findViewById(R.id.eTRecipeTags);
 
         getInitialRecipeInfo();
 
@@ -52,6 +55,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         eTRecipeContents.setEnabled(false);
         eTRecipeDetails.setEnabled(false);
         eTRecipePostTime.setEnabled(false);
+        eTRecipeTags.setEnabled(false);
     }
 
     protected String getAccessTokenFromOtherActivities() {
@@ -77,10 +81,13 @@ public class ViewRecipeActivity extends AppCompatActivity {
         recipeContents = bundleViewRecipe.getString("Recipe Contents");
         recipeDetails = bundleViewRecipe.getString("Recipe Details");
         recipePostTime = bundleViewRecipe.getString("Post Time");
+        recipeTags = bundleViewRecipe.getString("Recipe Tags");
         eTRecipeName.setText(recipeName);
         eTRecipeContents.setText(recipeContents);
         eTRecipeDetails.setText(recipeDetails);
         eTRecipePostTime.setText(recipePostTime);
+        eTRecipeTags.setText(recipeTags);
+
     }
 
     // MENU PROCESSES

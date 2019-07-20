@@ -68,7 +68,7 @@ public class Recipe {
         return userId;
     }
 
-    public String getTags() {
+    public String getRecipeTags() {
         return tags;
     }
 }

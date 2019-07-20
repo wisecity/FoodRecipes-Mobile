@@ -32,10 +32,12 @@ public class EditRecipeActivity extends AppCompatActivity {
     private String recipeDetails;
     private String recipeDate;
     private String recipeId;
+    private String recipeTags;
 
     EditText eTRecipeName;
     EditText eTRecipeContents;
     EditText eTRecipeDetails;
+    EditText eTRecipeTags;
     Button btnEditRecipe;
 
 
@@ -50,6 +52,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         eTRecipeName = findViewById(R.id.eTRecipeName);
         eTRecipeContents = findViewById(R.id.eTRecipeContents);
         eTRecipeDetails = findViewById(R.id.eTRecipeDetails);
+        eTRecipeTags = findViewById(R.id.eTRecipeTags);
         getInitialRecipeInfo();
 
         btnEditRecipe = findViewById(R.id.btnEditRecipe);
@@ -61,6 +64,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                     recipeName = eTRecipeName.getText().toString();
                     recipeContents = eTRecipeContents.getText().toString();
                     recipeDetails = eTRecipeDetails.getText().toString();
+                    recipeTags = eTRecipeTags.getText().toString();
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                     Calendar calendar = Calendar.getInstance();
                     recipeDate = formatter.format(calendar.getTime());
@@ -104,6 +108,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         jsonObj.addProperty("contents", recipeContents);
         jsonObj.addProperty("details", recipeDetails);
         jsonObj.addProperty("post_time", recipeDate);
+        jsonObj.addProperty("tags", recipeTags);
 
         Call<JsonObject> call = rest.editRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), recipeId, jsonObj);
 
@@ -155,9 +160,11 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeName = bundleEditRecipe.getString("Recipe Name");
         recipeContents = bundleEditRecipe.getString("Recipe Contents");
         recipeDetails = bundleEditRecipe.getString("Recipe Details");
+        recipeTags = bundleEditRecipe.getString("Recipe Tags");
         recipeId = bundleEditRecipe.getString("Recipe Id");
         eTRecipeName.setText(recipeName);
         eTRecipeContents.setText(recipeContents);
         eTRecipeDetails.setText(recipeDetails);
+        eTRecipeTags.setText(recipeTags);
     }
 }

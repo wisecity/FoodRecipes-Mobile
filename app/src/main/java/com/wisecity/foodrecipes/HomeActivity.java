@@ -289,7 +289,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Send To Recipe Page
-                        view(allRecipes[position].getRecipeName(), allRecipes[position].getRecipeDetails(), allRecipes[position].getRecipeContents(), allRecipes[position].getRecipePostTime());
+                        view(allRecipes[position].getRecipeName(), allRecipes[position].getRecipeDetails(), allRecipes[position].getRecipeContents(), allRecipes[position].getRecipePostTime(), allRecipes[position].getRecipeTags());
                         //refreshActivity();
                     }
                 });
@@ -322,13 +322,14 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void view(String recipeName, String recipeDetails, String recipeContents, String recipePostTime) {
+    protected void view(String recipeName, String recipeDetails, String recipeContents, String recipePostTime, String recipeTags) {
         // VIEW RETROFIT CODE
         Intent viewRecipeActivityIntent = new Intent(getApplicationContext(), ViewRecipeActivity.class);
         viewRecipeActivityIntent.putExtra("Recipe Name", recipeName);
         viewRecipeActivityIntent.putExtra("Recipe Details", recipeDetails);
         viewRecipeActivityIntent.putExtra("Recipe Contents", recipeContents);
         viewRecipeActivityIntent.putExtra("Post Time", recipePostTime);
+        viewRecipeActivityIntent.putExtra("Recipe Tags", recipeTags);
         startActivity(viewRecipeActivityIntent);
     }
 }
