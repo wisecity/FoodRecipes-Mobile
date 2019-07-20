@@ -13,8 +13,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,5 +103,29 @@ public class AddRecipeImageActivity extends AppCompatActivity {
         selectedImage.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
+    }
+
+    // MENU PROCESSES
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getItemId() == R.id.logout) {
+            // DO THE LOGOUT PROCESSES HERE FOR NOW THERE IS ONLY REDIRECTION OF INTENTS
+            Intent loginActivityIntent = new Intent(getApplicationContext(), LoginActivity.class);
+            Toast.makeText(getApplicationContext(), "Logout Successfully Completed!", Toast.LENGTH_LONG).show();
+            startActivity(loginActivityIntent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
