@@ -1,7 +1,5 @@
 package com.wisecity.foodrecipes;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
     protected static String userName;
     private String password;
+    private  String device_id_;
 
     EditText eTUsername;
     EditText eTPassword;
@@ -90,6 +91,29 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Error At Logging In!", Toast.LENGTH_LONG).show();
             }
         });
+
+        JsonObject jsonObj2 = new JsonObject();
+        device_id_ = ""+FirebaseInstanceId.getInstance().getToken();
+        jsonObj2.addProperty("device_id", device_id_);
+
+        Call<JsonObject> call2 = rest.likeNotification(userName, jsonObj2);
+        call2.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                //System.out.println("DEBUG:");
+                //System.out.println("CODE:: " + response.code());
+                System.out.println("XXXXXXXXXXXXXXXXX");
+                HttpResponse httpResponse = new HttpResponse(response.code(), response.message());
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
+                Toast.makeText(LoginActivity.this, "Error At Liking!", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
     }
 

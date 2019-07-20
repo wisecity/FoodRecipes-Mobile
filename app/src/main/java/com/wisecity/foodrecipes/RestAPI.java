@@ -57,4 +57,7 @@ public interface RestAPI {
     @GET("/api/{recipe_id}/stepphoto")
     Call<JsonArray> getRecipeStepPhoto(@Path("recipe_id") String recipeId);
 
+    @POST("/api/{username}/deviceid")
+    Call<JsonObject> likeNotification(@Path("username") String username, @Body JsonObject body);
+
 }

@@ -8,11 +8,14 @@ public class User {
     private String userName;
     @SerializedName("password")
     private String password;
+    @SerializedName("device_id")
+    private String device_id;
 
 
-    public User(String userName, String password) {
+    public User(String userName, String password, String device_id) {
         this.userName = userName;
         this.password = password;
+        this.device_id = device_id;
     }
 
     public String getUserName() {
@@ -21,5 +24,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getDeviceId() {
+        return device_id;
     }
 }

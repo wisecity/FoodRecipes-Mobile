@@ -1,8 +1,5 @@
 package com.wisecity.foodrecipes;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,6 +23,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
@@ -59,6 +60,8 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(HomeActivity.this, "Welcome!", Toast.LENGTH_LONG).show();
 
         initializeToken();
+
+        System.out.println("TOKEN:" + FirebaseInstanceId.getInstance().getToken());
 
         iBUserProfile = findViewById(R.id.iBUserProfile);
         iBUserProfile.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +166,8 @@ public class HomeActivity extends AppCompatActivity {
                 System.out.println("FAILED");
             }
         });
+
+
     }
 
     private void putAllRecipesToList() {
