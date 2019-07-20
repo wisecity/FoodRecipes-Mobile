@@ -180,7 +180,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         });
     }
 
-    private void viewRecipeImages(View view) {
+    protected void viewRecipeImages(View view) {
         switchToViewRecipeImagesActivity(accessToken);
     }
 

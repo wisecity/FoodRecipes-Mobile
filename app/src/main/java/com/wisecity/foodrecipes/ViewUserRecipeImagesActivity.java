@@ -28,6 +28,8 @@ public class ViewUserRecipeImagesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_user_recipe_images);
 
+        System.out.println("DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGg");
+
         listViewRecipe = findViewById(R.id.listViewRecipe);
         userRecipeImageTagFromServer = new ArrayList<>();
         userRecipeImageFromServer = new ArrayList<>();

@@ -180,7 +180,7 @@ public class ViewUserRecipeActivity extends AppCompatActivity {
         startActivity(viewUserRecipeImagesIntent);
     }
 
-    private void viewUserRecipeImages(View view) {
+    protected void viewUserRecipeImages(View view) {
         switchToUserRecipeImages(accessToken);
     }
 }
