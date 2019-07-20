@@ -2,9 +2,7 @@ package com.wisecity.foodrecipes;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -14,7 +12,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Url;
 
 public interface RestAPI {
 
@@ -50,5 +47,14 @@ public interface RestAPI {
 
     @POST("/api/{recipe_id}/like")
     Call<JsonObject> likeRecipe(@Path("recipe_id") String recipeId);
+
+    @GET("/api/{recipeid}/finalphoto")
+    Call<JsonObject> getRecipeFinalPhoto();
+
+    @GET("/api/{recipeid}/ingredientphoto")
+    Call<JsonObject> getRecipeIngredientPhoto();
+
+    @GET("/api/{recipeid}/stepphoto")
+    Call<JsonObject> getRecipeStepPhoto();
 
 }

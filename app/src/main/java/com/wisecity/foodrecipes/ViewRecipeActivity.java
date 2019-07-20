@@ -105,6 +105,12 @@ public class ViewRecipeActivity extends AppCompatActivity {
         startActivity(userHomeIntent);
     }
 
+    private void switchToViewRecipeImagesActivity(Token accessToken) {
+        Intent viewRecipeImagesIntent = new Intent(getApplicationContext(), ViewRecipeImagesActivity.class);
+        viewRecipeImagesIntent.putExtra("accessToken", accessToken.getAccessToken());
+        startActivity(viewRecipeImagesIntent);
+    }
+
     protected void getInitialRecipeInfo() {
         Bundle bundleViewRecipe = getIntent().getExtras();
         recipeName = bundleViewRecipe.getString("Recipe Name");
@@ -172,6 +178,10 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error At Sending Recipe Like Information To Server!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void viewRecipeImages(View view) {
+        switchToViewRecipeImagesActivity(accessToken);
     }
 
 }

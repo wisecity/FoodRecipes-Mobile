@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -26,6 +27,8 @@ import retrofit2.Retrofit;
 public class EditRecipeActivity extends AppCompatActivity {
 
     private Token accessToken;
+
+    ImageButton iBAddPicture;
 
     private String recipeName;
     private String recipeContents;
@@ -48,6 +51,14 @@ public class EditRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_recipe);
 
         initializeToken();
+
+        iBAddPicture = findViewById(R.id.iBAddPicture);
+        iBAddPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToAddRecipePictureActivity(accessToken);
+            }
+        });
 
         eTRecipeName = findViewById(R.id.eTRecipeName);
         eTRecipeContents = findViewById(R.id.eTRecipeContents);
@@ -95,6 +106,13 @@ public class EditRecipeActivity extends AppCompatActivity {
         Intent editRecipeHomeIntent = new Intent(getApplicationContext(), HomeActivity.class);
         editRecipeHomeIntent.putExtra("accessToken", accessToken.getAccessToken());
         startActivity(editRecipeHomeIntent);
+    }
+
+
+    private void switchToAddRecipePictureActivity(Token accessToken) {
+        Intent editRecipeAddRecipePictureIntent = new Intent(getApplicationContext(), AddRecipeImageActivity.class);
+        editRecipeAddRecipePictureIntent.putExtra("accessToken", accessToken.getAccessToken());
+        startActivity(editRecipeAddRecipePictureIntent);
     }
 
     private void sendEditRecipeData() {

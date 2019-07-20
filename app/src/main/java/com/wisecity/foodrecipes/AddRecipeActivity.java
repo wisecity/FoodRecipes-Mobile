@@ -111,9 +111,8 @@ public class AddRecipeActivity extends AppCompatActivity {
         jsonObj.addProperty("post_time", recipeDate);
         jsonObj.addProperty("tags", recipeTags);
 
-        System.out.println("DEBUG 1:");
         Call<JsonObject> call = rest.addRecipe("Bearer " + accessToken.getAccessToken().replace("\"",""), jsonObj);
-        System.out.println("DEBUG 2: " + jsonObj);
+
 
         System.out.println(call.request().toString());
 

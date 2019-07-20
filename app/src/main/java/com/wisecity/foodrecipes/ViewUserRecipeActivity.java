@@ -174,4 +174,13 @@ public class ViewUserRecipeActivity extends AppCompatActivity {
         });
     }
 
+    private void switchToUserRecipeImages(Token accessToken) {
+        Intent viewUserRecipeImagesIntent = new Intent(ViewUserRecipeActivity.this, ViewUserRecipeImagesActivity.class);
+        viewUserRecipeImagesIntent.putExtra("accessToken", accessToken.getAccessToken());
+        startActivity(viewUserRecipeImagesIntent);
+    }
+
+    private void viewUserRecipeImages(View view) {
+        switchToUserRecipeImages(accessToken);
+    }
 }

@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eTRecipeLikes"
+            app:layout_constraintTop_toBottomOf="@+id/btnViewRecipeImages"
             app:srcCompat="@drawable/wisecitylogo" />
 
         <EditText
@@ -110,6 +110,7 @@
             android:ems="10"
             android:gravity="top|left"
             android:hint="Likes:"
+            android:onClick="viewRecipeImages"
             android:textColor="#fff"
             android:textColorHint="#fff"
             android:textSize="18sp"
@@ -168,6 +169,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/iVWiseCityLogo"
             app:srcCompat="@drawable/ic_action_like" />
+
+        <Button
+            android:id="@+id/btnViewRecipeImages"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="View Images"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eTRecipeLikes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
