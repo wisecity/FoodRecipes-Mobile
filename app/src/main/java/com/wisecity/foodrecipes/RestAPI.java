@@ -48,4 +48,7 @@ public interface RestAPI {
     @DELETE("/api/recipeManipulation/{recipe_id}")
     Call<JsonObject> deleteRecipe( @Header("Authorization") String accessToken, @Path("recipe_id") String recipeId);
 
+    @POST("/api/{recipe_id}/like")
+    Call<JsonObject> likeRecipe(@Path("recipe_id") String recipeId);
+
 }

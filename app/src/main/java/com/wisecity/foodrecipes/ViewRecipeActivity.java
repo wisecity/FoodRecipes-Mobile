@@ -13,9 +13,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class ViewRecipeActivity extends AppCompatActivity {
     ImageButton iBHome;
     ImageButton iBUrl;
+    ImageButton iBLike;
     private Token accessToken;
 
     private String recipeName;
@@ -23,6 +31,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private String recipeDetails;
     private  String recipePostTime;
     private String recipeTags;
+    private int recipeLikes;
     private String recipeId;
 
     EditText eTRecipeName;
@@ -30,6 +39,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     EditText eTRecipeDetails;
     EditText eTRecipePostTime;
     EditText eTRecipeTags;
+    EditText eTRecipeLikes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +63,20 @@ public class ViewRecipeActivity extends AppCompatActivity {
             }
         });
 
+        iBLike = findViewById(R.id.iBLike);
+        iBLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                likeRecipe();
+            }
+        });
+
         eTRecipeName = findViewById(R.id.eTRecipeName);
         eTRecipeContents = findViewById(R.id.eTRecipeContents);
         eTRecipeDetails = findViewById(R.id.eTRecipeDetails);
         eTRecipePostTime = findViewById(R.id.eTRecipePostTime);
         eTRecipeTags = findViewById(R.id.eTRecipeTags);
+        eTRecipeLikes = findViewById(R.id.eTRecipeLikes);
 
         getInitialRecipeInfo();
 
@@ -66,6 +85,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         eTRecipeDetails.setEnabled(false);
         eTRecipePostTime.setEnabled(false);
         eTRecipeTags.setEnabled(false);
+        eTRecipeLikes.setEnabled(false);
     }
 
     protected String getAccessTokenFromOtherActivities() {
@@ -79,7 +99,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         accessToken = new Token(getAccessTokenFromOtherActivities());
     }
 
-    protected void switchToHomeActivity(Token accessToken) {
+    private void switchToHomeActivity(Token accessToken) {
         Intent userHomeIntent = new Intent(ViewRecipeActivity.this, HomeActivity.class);
         userHomeIntent.putExtra("accessToken", accessToken.getAccessToken());
         startActivity(userHomeIntent);
@@ -92,12 +112,14 @@ public class ViewRecipeActivity extends AppCompatActivity {
         recipeDetails = bundleViewRecipe.getString("Recipe Details");
         recipePostTime = bundleViewRecipe.getString("Post Time");
         recipeTags = bundleViewRecipe.getString("Recipe Tags");
+        recipeLikes = bundleViewRecipe.getInt("Recipe Likes");
         recipeId = bundleViewRecipe.getString("Recipe Id");
         eTRecipeName.setText(recipeName);
         eTRecipeContents.setText(recipeContents);
         eTRecipeDetails.setText(recipeDetails);
         eTRecipePostTime.setText(recipePostTime);
         eTRecipeTags.setText(recipeTags);
+        eTRecipeLikes.setText("Likes: "+recipeLikes);
 
     }
 
@@ -131,6 +153,25 @@ public class ViewRecipeActivity extends AppCompatActivity {
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, "https://foodrecipesbil495.herokuapp.com/recipedetails/" + recipeId);
         startActivity(Intent.createChooser(shareIntent, "Share with"));
+    }
+
+    private void likeRecipe() {
+        RestAPIUrl url = new RestAPIUrl();
+        Retrofit retrofit = url.createRetrofitFromUrl();
+        RestAPI rest = retrofit.create(RestAPI.class);
+        Call<JsonObject> call = rest.likeRecipe(recipeId);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Toast.makeText(getApplicationContext(), "Recipe Has Been Successfully Liked", Toast.LENGTH_LONG).show();
+                switchToHomeActivity(accessToken);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error At Sending Recipe Like Information To Server!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

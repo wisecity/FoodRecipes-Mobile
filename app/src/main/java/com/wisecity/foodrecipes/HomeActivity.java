@@ -289,7 +289,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Send To Recipe Page
-                        view(allRecipes[position].getRecipeName(), allRecipes[position].getRecipeDetails(), allRecipes[position].getRecipeContents(), allRecipes[position].getRecipePostTime(), allRecipes[position].getRecipeTags(), allRecipes[position].getRecipeId());
+                        view(allRecipes[position].getRecipeName(), allRecipes[position].getRecipeDetails(), allRecipes[position].getRecipeContents(), allRecipes[position].getRecipePostTime(), allRecipes[position].getRecipeTags(), allRecipes[position].getRecipeId(), allRecipes[position].getRecipeLikes());
                         //refreshActivity();
                     }
                 });
@@ -322,7 +322,7 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void view(String recipeName, String recipeDetails, String recipeContents, String recipePostTime, String recipeTags, String recipeId) {
+    protected void view(String recipeName, String recipeDetails, String recipeContents, String recipePostTime, String recipeTags, String recipeId, int recipeLikes) {
         // VIEW RETROFIT CODE
         Intent viewRecipeActivityIntent = new Intent(getApplicationContext(), ViewRecipeActivity.class);
         viewRecipeActivityIntent.putExtra("Recipe Name", recipeName);
@@ -331,6 +331,7 @@ public class HomeActivity extends AppCompatActivity {
         viewRecipeActivityIntent.putExtra("Post Time", recipePostTime);
         viewRecipeActivityIntent.putExtra("Recipe Tags", recipeTags);
         viewRecipeActivityIntent.putExtra("Recipe Id", recipeId);
+        viewRecipeActivityIntent.putExtra("Recipe Likes", recipeLikes);
         startActivity(viewRecipeActivityIntent);
     }
 
