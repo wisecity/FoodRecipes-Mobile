@@ -20,15 +20,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.http.HTTP;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
 
 public class AddRecipeImageActivity extends AppCompatActivity {
     private Token accessToken;

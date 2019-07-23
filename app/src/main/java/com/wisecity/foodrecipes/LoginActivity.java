@@ -76,10 +76,8 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                //System.out.println("DEBUG:");
-                //System.out.println("CODE:: " + response.code());
                 HttpResponse httpResponse = new HttpResponse(response.code(), response.message());
-                Toast.makeText(LoginActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, httpResponse.toString(), Toast.LENGTH_LONG).show();
 
                 if((httpResponse.getHttpStatus() == HTTP_STATUS_CODE_CONTINUE) || (httpResponse.getHttpStatus() == HTTP_STATUS_CODE_OK)) {
                     switchToHomeActivity(response);
@@ -100,17 +98,12 @@ public class LoginActivity extends AppCompatActivity {
         call2.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                //System.out.println("DEBUG:");
-                //System.out.println("CODE:: " + response.code());
-                System.out.println("XXXXXXXXXXXXXXXXX");
-                HttpResponse httpResponse = new HttpResponse(response.code(), response.message());
-
+                //HttpResponse httpResponse = new HttpResponse(response.code(), response.message());
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
-                Toast.makeText(LoginActivity.this, "Error At Liking!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, "Error At Liking!", Toast.LENGTH_LONG).show();
             }
         });
 
